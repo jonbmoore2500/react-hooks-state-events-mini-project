@@ -1,30 +1,37 @@
 import React, {useState} from "react";
 
-function NewTaskForm({addNewTask, categories}) {
+function NewTaskForm({onTaskFormSubmit, categories}) {
   const [newName, setNewName] = useState('')
   const [newCategory, setNewCategory] = useState('All')
-  function handleSubmit(event) {
-    event.preventDefault()
-
+  const formCategories = categories.filter(category => category !== "All")
+  
+  function handleSubmit(e) {
+    // why won't preventDefault work?
+    e.preventDefault();
+    console.log('hi', newName, newCategory)
+    let newTaskObj = {
+      text: newName,
+      category: newCategory
+    }
+    onTaskFormSubmit(newTaskObj)
   }
   
   
   return (
-    <form className="new-task-form">
+    <form className="new-task-form" onSubmit={handleSubmit}>
       <label>
         Details
-        <input type="text" name="text" />
+        <input type="text" name="text" onChange={(e) => setNewName(e.target.value)}/>
       </label>
       <label>
         Category
         <select name="category">
-          {categories.map((category) => (
-            <option key={category}>{category}</option>
+          {formCategories.map((category) => (
+            <option key={category} onSelect={(e) => setNewCategory(e.target.value)}>{category}</option>
           ))}
-          {/* render <option> elements for each category here */}
         </select>
       </label>
-      <input type="submit" value="Add task" onSubmit={handleSubmit}/>
+      <input type="submit" value="Add task" />
     </form>
   );
 }
