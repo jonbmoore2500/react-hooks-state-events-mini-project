@@ -6,13 +6,13 @@ function NewTaskForm({onTaskFormSubmit, categories}) {
   const formCategories = categories.filter(category => category !== "All")
   
   function handleSubmit(e) {
-    // why won't preventDefault work?
     e.preventDefault();
-    console.log('hi', newName, newCategory)
+    // console.log('hi', newName, newCategory)
     let newTaskObj = {
       text: newName,
       category: newCategory
     }
+    console.log(newTaskObj)
     onTaskFormSubmit(newTaskObj)
   }
   
@@ -25,9 +25,9 @@ function NewTaskForm({onTaskFormSubmit, categories}) {
       </label>
       <label>
         Category
-        <select name="category">
+        <select name="category" onChange={(e) => setNewCategory(e.target.value)}>
           {formCategories.map((category) => (
-            <option key={category} onSelect={(e) => setNewCategory(e.target.value)}>{category}</option>
+            <option key={category} value={category} >{category}</option>
           ))}
         </select>
       </label>
